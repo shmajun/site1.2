@@ -1,0 +1,17 @@
+document.getElementById('sendButton').addEventListener('click', async () => {
+    const inputText = document.getElementById('inputText').value;
+    if (inputText) {
+        await fetch('/api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: inputText }),
+        });
+        document.getElementById('inputText').value = '';
+    }
+});
+
+document.getElementById('showButton').addEventListener('click', async () => {
+    const response = await fetch('/api/get');
+    const data = await response.json();
+    alert(`Fetched Data: ${data.text}`);
+});
