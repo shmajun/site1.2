@@ -4,15 +4,15 @@
     "description": "A simple project using Vercel Storage to save and fetch data",
     "main": "index.js",
     "scripts": {
-      "dev": "vercel dev",
-      "start": "node server.js"
+        "dev": "vercel dev",
+        "start": "node server.js"
     },
-    "dependencies": {
-      "@vercel/storage": "^1.0.0"
-    },
-    "devDependencies": {},
-    "keywords": ["vercel", "storage", "blob", "api"],
+    "keywords": [
+        "vercel",
+        "storage",
+        "blob",
+        "api"
+    ],
     "author": "Your Name",
     "license": "MIT"
-  }
-  
+}
