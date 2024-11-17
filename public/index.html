@@ -1,17 +1,61 @@
-document.getElementById('sendButton').addEventListener('click', async () => {
-    const inputText = document.getElementById('inputText').value;
-    if (inputText) {
-        await fetch('/api/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: inputText }),
-        });
-        document.getElementById('inputText').value = '';
-    }
-});
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>データベース連携のサンプル</title>
+</head>
+<body>
+  <h1>Vercel Storageとの連携サンプル</h1>
 
-document.getElementById('showButton').addEventListener('click', async () => {
-    const response = await fetch('/api/get');
-    const data = await response.json();
-    alert(`Fetched Data: ${data.text}`);
-});
+  <!-- テキストボックスと送信ボタン -->
+  <label for="textInput">入力するテキスト:</label>
+  <input type="text" id="textInput" name="textInput">
+  <button onclick="saveData()">送信</button>
+
+  <br><br>
+
+  <!-- 表示ボタンと結果表示エリア -->
+  <button onclick="displayData()">表示</button>
+  <div id="dataDisplay"></div>
+
+  <script>
+    // データをVercel Storageに保存する関数
+    async function saveData() {
+      const textInput = document.getElementById('textInput').value;
+      
+      if (!textInput) {
+        alert('テキストを入力してください');
+        return;
+      }
+
+      // サーバー側にPOSTリクエストを送る
+      const response = await fetch('/api/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: textInput }),
+      });
+
+      if (response.ok) {
+        alert('データが保存されました');
+      } else {
+        alert('データ保存に失敗しました');
+      }
+    }
+
+    // データをVercel Storageから表示する関数
+    async function displayData() {
+      const response = await fetch('/api/display');
+      
+      if (response.ok) {
+        const data = await response.json();
+        document.getElementById('dataDisplay').innerText = data.text || 'データがありません';
+      } else {
+        alert('データ取得に失敗しました');
+      }
+    }
+  </script>
+</body>
+</html>
